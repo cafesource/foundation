@@ -3,20 +3,17 @@
 namespace Cafesource\Foundation;
 
 use Illuminate\Support\Arr;
-use Cafesource\Foundation\Cache\Manager as CacheManager;
-use Cafesource\Foundation\Autoload\LoadManager as AutoloadManager;
 
-class App
+class App extends Autoload
 {
     protected array $config   = [];
     protected array $autoload = [];
-    protected array $cache    = [];
 
     public function __construct( $config )
     {
         $this->config = $config;
 
-        $this->app = $this->autoload('app', $config);
+        parent::__construct('app', $config);
     }
 
     /**
@@ -32,7 +29,7 @@ class App
      */
     public function serviceProviders() : array
     {
-        return $this->app->get('providers', []);
+        return $this->get('providers', []);
     }
 
     /**
@@ -40,7 +37,7 @@ class App
      */
     public function routes() : array
     {
-        return $this->app->get('routes', []);
+        return $this->get('routes', []);
     }
 
     /**
@@ -50,7 +47,7 @@ class App
      */
     public function addRoute( string $name, $path, array $options = [] ) : App
     {
-        $this->app->filter('routes', function ( $routes ) use ( $name, $options, $path ) {
+        $this->filter('routes', function ( $routes ) use ( $name, $options, $path ) {
             $routes[ $name ] = array_merge(['path' => $path], $options);
 
             return $routes;
@@ -64,7 +61,7 @@ class App
      */
     public function livewireComponents()
     {
-        return $this->app->get('livewire_components', []);
+        return $this->get('livewire_components', []);
     }
 
     /**
@@ -73,7 +70,7 @@ class App
      */
     public function addLivewireComponent( $component, $path = null ) : App
     {
-        $this->app->filter('livewire_components', function ( $components ) use ( $component, $path ) {
+        $this->filter('livewire_components', function ( $components ) use ( $component, $path ) {
             if ( is_array($component) )
                 $components = array_merge($components, $component);
             else
@@ -89,26 +86,14 @@ class App
      * @param       $name
      * @param array $items
      *
-     * @return AutoloadManager
+     * @return Autoload
      */
-    public function autoload( $name, $items = [] ) : AutoloadManager
+    public function autoload( $name, $items = [] )
     {
         if ( array_key_exists($name, $this->autoload) )
             return $this->autoload[ $name ];
 
-        $this->autoload[ $name ] = new AutoloadManager($name, $items);
-
-        return $this->autoload[ $name ];
-    }
-
-    /**
-     * @param $name
-     *
-     * @return CacheManager
-     */
-    public function cache( $name ) : CacheManager
-    {
-        $this->autoload[ $name ] = new CacheManager($name);
+        $this->autoload[ $name ] = new Autoload($name, $items);
 
         return $this->autoload[ $name ];
     }
@@ -119,13 +104,5 @@ class App
             return $this->autoload[ $key ];
 
         return $this->autoload;
-    }
-
-    public function getCache( $key = null )
-    {
-        if ( !is_null($key) )
-            return Arr::get($this->cache, $key);
-
-        return $this->cache;
     }
 }
