@@ -17,13 +17,3 @@ if ( !function_exists('autoload') ) {
         return Cafesource::autoload($name, $data);
     }
 }
-
-if ( !function_exists('hook') ) {
-    /**
-     * @return \Cafesource\Foundation\Facades\Hook
-     */
-    function hook()
-    {
-        return app('cafesource.hook');
-    }
-}
