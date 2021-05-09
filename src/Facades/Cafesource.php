@@ -5,7 +5,7 @@ namespace Cafesource\Foundation\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
-use Cafesource\Foundation\Autoload\LoadManager;
+use Cafesource\Foundation\Autoload;
 use Cafesource\Foundation\App as CafesourceManager;
 
 /**
@@ -17,8 +17,8 @@ use Cafesource\Foundation\App as CafesourceManager;
  * @method static CafesourceManager addRoute(string $name, $path, array $options = [])
  * @method static array livewireComponents()
  * @method static CafesourceManager addLivewireComponent()
- * @method static LoadManager autoload(string $name, array $data = [])
- * @method static LoadManager getAutoload(string $key = null)
+ * @method static Autoload autoload(string $name, array $data = [])
+ * @method static Autoload getAutoload(string $key = null)
  * @method static mixed cache(string $name)
  * @method static array getCache()
  *
