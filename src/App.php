@@ -88,7 +88,7 @@ class App extends Autoload
      *
      * @return Autoload
      */
-    public function autoload( $name, $items = [] )
+    public function autoload( $name, $items = [] ) : Autoload
     {
         if ( array_key_exists($name, $this->autoload) )
             return $this->autoload[ $name ];
@@ -98,7 +98,12 @@ class App extends Autoload
         return $this->autoload[ $name ];
     }
 
-    public function getAutoload( $key = null )
+    /**
+     * @param null $key
+     *
+     * @return array|mixed
+     */
+    public function getAutoload( $key = null ) : Autoload
     {
         if ( !is_null($key) && array_key_exists($key, $this->autoload) )
             return $this->autoload[ $key ];
