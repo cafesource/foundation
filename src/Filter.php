@@ -2,9 +2,12 @@
 
 namespace Cafesource\Foundation;
 
+use Illuminate\Support\Collection;
+
 class Filter
 {
     protected $listeners = [];
+    private   $lastValue;
 
     public function __construct()
     {
@@ -19,7 +22,7 @@ class Filter
      *
      * @return $this
      */
-    public function add( string $name, callable $callback, int $arguments = 1, int $priority = 20 )
+    public function add( string $name, callable $callback, int $arguments = 1, int $priority = 20 ) : Filter
     {
         $this->listeners->push([
             'name'      => $name,
@@ -36,18 +39,18 @@ class Filter
      *
      * @return bool
      */
-    public function has( $name )
+    public function has( $name ) : bool
     {
         $count = $this->listeners->where('name', $name)->count();
-        return $count > 0 ? true : false;
+        return $count > 0;
     }
 
     /**
      * @param $name
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function listeners( $name )
+    public function listeners( $name ) : Collection
     {
         return $this->listeners->where('name', $name)->sortBy('priority');
     }
@@ -82,7 +85,7 @@ class Filter
      * @param     $callback
      * @param int $priority
      */
-    public function remove( $name, $callback, $priority = 20 )
+    public function remove( $name, $callback, int $priority = 20 )
     {
         if ( $this->listeners ) {
             $this->listeners->where('name', $name)
