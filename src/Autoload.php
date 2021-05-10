@@ -7,14 +7,25 @@ use Illuminate\Support\Arr;
 class Autoload
 {
     /**
+     * The autoload name
+     *
      * @var $name
      */
     protected $name;
 
     /**
+     * The autoload items is loaded
+     *
      * @var array|mixed
      */
-    protected $items = [];
+    protected array $items = [];
+
+    /**
+     * The default value
+     *
+     * @var array $default
+     */
+    protected array $default = [];
 
     /**
      * @var Filter
@@ -27,7 +38,7 @@ class Autoload
      * @param       $name
      * @param array $items
      */
-    public function __construct( $name, $items = [] )
+    public function __construct( $name, array $items = [] )
     {
         $this->name    = $name;
         $this->items   = $items;
@@ -49,7 +60,7 @@ class Autoload
      *
      * @return bool
      */
-    public function has( $key )
+    public function has( $key ) : bool
     {
         return array_key_exists($key, $this->items);
     }
@@ -60,7 +71,7 @@ class Autoload
      *
      * @return $this
      */
-    public function set( $key, $value )
+    public function set( $key, $value ) : Autoload
     {
         $this->items[ $key ] = $value;
 
@@ -74,7 +85,7 @@ class Autoload
      *
      * @return $this
      */
-    public function add( $key, $value, $default = null )
+    public function add( $key, $value, $default = null ) : Autoload
     {
         $this->items[ $key ] = $value;
 
@@ -89,7 +100,7 @@ class Autoload
      *
      * @return $this
      */
-    public function push( $data )
+    public function push( $data ) : Autoload
     {
         $this->items = array_merge($this->items, $data);
 
@@ -151,7 +162,7 @@ class Autoload
      *
      * @return $this
      */
-    public function addFilter( $key, callable $callable, $arguments = 1, $priority = 10 ) : Autoload
+    public function addFilter( $key, callable $callable, int $arguments = 1, int $priority = 10 ) : Autoload
     {
         $this->filter->add($key, $callable, $arguments, $priority);
 
