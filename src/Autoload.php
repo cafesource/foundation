@@ -96,13 +96,13 @@ class Autoload
     }
 
     /**
-     * @param $data
+     * @param $items
      *
      * @return $this
      */
-    public function push( $data ) : Autoload
+    public function push( $items ) : Autoload
     {
-        $this->items = array_merge($this->items, $data);
+        $this->items = array_merge($this->items, $items);
 
         return $this;
     }
@@ -115,13 +115,8 @@ class Autoload
      */
     public function get( $key, $default = null )
     {
-        if ( $this->has($key) ) {
-            $value = Arr::get($this->items, $key);
-
-            return $this->filter->apply($key, $value);
-        }
-
-        return $default;
+        $value = Arr::get($this->items, $key, $default);
+        return $this->filter->apply($key, $value);
     }
 
     /**
