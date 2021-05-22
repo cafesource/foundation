@@ -2,8 +2,6 @@
 
 namespace Cafesource\Foundation;
 
-use Illuminate\Support\Arr;
-
 class App extends Autoload
 {
     protected array $config   = [];
