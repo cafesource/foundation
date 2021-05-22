@@ -2,10 +2,8 @@
 
 namespace Cafesource\Foundation;
 
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use Cafesource\Foundation\Hook\Hooks;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Container\Container as Application;
 use Cafesource\Foundation\Facades\Cafesource as Foundation;
