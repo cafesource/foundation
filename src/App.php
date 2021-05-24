@@ -86,7 +86,7 @@ class App extends Autoload
      *
      * @return Autoload
      */
-    public function autoload( $name, $items = [] ) : Autoload
+    public function autoload( $name, array $items = [] ) : Autoload
     {
         if ( array_key_exists($name, $this->autoload) )
             return $this->autoload[ $name ];
