@@ -74,7 +74,6 @@ class Autoload
     public function set( $key, $value ) : Autoload
     {
         $this->items[ $key ] = $value;
-
         return $this;
     }
 
@@ -103,7 +102,6 @@ class Autoload
     public function push( $items ) : Autoload
     {
         $this->items = array_merge($this->items, $items);
-
         return $this;
     }
 
@@ -145,7 +143,6 @@ class Autoload
             $value = $callback;
 
         $this->set($key, $value);
-
         return $this;
     }
 
@@ -160,7 +157,6 @@ class Autoload
     public function addFilter( $key, callable $callable, int $arguments = 1, int $priority = 10 ) : Autoload
     {
         $this->filter->add($key, $callable, $arguments, $priority);
-
         return $this;
     }
 
