@@ -99,9 +99,9 @@ class App extends Autoload
     /**
      * @param null $key
      *
-     * @return array|mixed
+     * @return mixed
      */
-    public function getAutoload( $key = null ) : Autoload
+    public function getAutoload( $key = null )
     {
         if ( !is_null($key) && array_key_exists($key, $this->autoload) )
             return $this->autoload[ $key ];

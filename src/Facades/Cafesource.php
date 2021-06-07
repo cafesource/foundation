@@ -18,7 +18,7 @@ use Cafesource\Foundation\App as CafesourceManager;
  * @method static array livewireComponents()
  * @method static CafesourceManager addLivewireComponent()
  * @method static Autoload autoload(string $name, array $data = [])
- * @method static Autoload getAutoload(string $key = null)
+ * @method static array getAutoload(string $key = null)
  * @method static mixed cache(string $name)
  * @method static array getCache()
  *

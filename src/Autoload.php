@@ -95,11 +95,23 @@ class Autoload
     }
 
     /**
+     * @param $key
      * @param $items
      *
      * @return $this
      */
-    public function push( $items ) : Autoload
+    public function push( $key, $items ) : Autoload
+    {
+        $this->items[ $key ][] = $items;
+        return $this;
+    }
+
+    /**
+     * @param $items
+     *
+     * @return $this
+     */
+    public function merge( $items ) : Autoload
     {
         $this->items = array_merge($this->items, $items);
         return $this;
