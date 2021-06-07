@@ -82,36 +82,16 @@ class Filter
 
     /**
      * @param     $name
-     * @param     $callback
-     * @param int $priority
      */
-    public function remove( $name, $callback, int $priority = 20 )
+    public function remove( $name )
     {
-        if ( $this->listeners ) {
-            $this->listeners->where('name', $name)
-                ->filter(function ( $listener ) use ( $callback ) {
-                    return $callback === $listener[ 'callback' ];
-                })
-                ->where('priority', $priority)
-                ->each(function ( $listener, $key ) {
-                    $this->listeners->forget($key);
-                });
-        }
+        $this->listeners->forget($name);
     }
 
     /**
-     * @param null $name
      */
-    public function removeAll( $name = null )
+    public function removeAll()
     {
-        if ( $name ) {
-            if ( $this->listeners ) {
-                $this->listeners->where('name', $name)->each(function ( $listener, $key ) {
-                    $this->listeners->forget($key);
-                });
-            }
-        } else {
-            $this->listeners = collect([]);
-        }
+        $this->listeners = collect([]);
     }
 }
