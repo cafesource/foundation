@@ -16,7 +16,7 @@ use Cafesource\Foundation\App as CafesourceManager;
  * @method static array routes()
  * @method static CafesourceManager addRoute(string $name, $path, array $options = [])
  * @method static array livewireComponents()
- * @method static CafesourceManager addLivewireComponent()
+ * @method static CafesourceManager addLivewireComponent($component, $module = null)
  * @method static Autoload autoload(string $name, array $data = [])
  * @method static array getAutoload(string $key = null)
  * @method static mixed cache(string $name)
