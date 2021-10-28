@@ -5,5 +5,7 @@ return [
 
     'routes' => [],
 
-    'livewire_components' => []
+    'livewire_components' => [],
+
+    'view_components'     => []
 ];
