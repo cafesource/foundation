@@ -4,13 +4,22 @@ namespace Cafesource\Foundation;
 
 class App extends Autoload
 {
+    /**
+     * The view components
+     */
+    public const VIEW_COMPONENT = 'view_components';
+
+    /**
+     * The livewire components
+     */
+    public const LIVEWIRE_COMPONENT = 'livewire_components';
+
     protected array $config   = [];
     protected array $autoload = [];
 
     public function __construct( $config )
     {
         $this->config = $config;
-
         parent::__construct('app', $config);
     }
 
@@ -40,8 +49,10 @@ class App extends Autoload
 
     /**
      * @param string $name
-     * @param array  $options
      * @param        $path
+     * @param array  $options
+     *
+     * @return App
      */
     public function addRoute( string $name, $path, array $options = [] ) : App
     {
@@ -59,7 +70,17 @@ class App extends Autoload
      */
     public function livewireComponents()
     {
-        return $this->get('livewire_components', []);
+        return $this->get(self::LIVEWIRE_COMPONENT, []);
+    }
+
+    /**
+     * The view components
+     *
+     * @return mixed|null
+     */
+    public function viewComponents() : array
+    {
+        return $this->get(self::VIEW_COMPONENT, []);
     }
 
     /**
@@ -68,12 +89,39 @@ class App extends Autoload
      */
     public function addLivewireComponent( $component, $path = null ) : App
     {
-        $this->filter('livewire_components', function ( $components ) use ( $component, $path ) {
+        $this->filter(self::LIVEWIRE_COMPONENT, function ( $components ) use ( $component, $path ) {
             if ( is_array($component) )
-                $components = array_merge($components, $component);
-            else
-                $components[ $component ] = $path;
+                return array_merge($components, $component);
 
+            $components[ $component ] = $path;
+            return $components;
+        });
+
+        return $this;
+    }
+
+    /**
+     * @param      $component
+     * @param null $path
+     *
+     * @return $this
+     */
+    public function addViewComponent( $component, $path = null ) : App
+    {
+        $this->filter(self::VIEW_COMPONENT, function ( $components ) use ( $component, $path ) {
+            if ( is_array($component) ) {
+                if ( array_key_exists('namespace', $component) ) {
+                    if ( !array_key_exists('namespace', $components) )
+                        $components[ 'namespace' ] = [];
+
+                    $components[ 'namespace' ] = array_merge($components[ 'namespace' ], $component[ 'namespace' ]);
+                    unset($component[ 'namespace' ]);
+                }
+
+                return array_merge($components, $component);
+            }
+
+            $components[ $component ] = $path;
             return $components;
         });
 
@@ -92,7 +140,6 @@ class App extends Autoload
             return $this->autoload[ $name ];
 
         $this->autoload[ $name ] = new Autoload($name, $items);
-
         return $this->autoload[ $name ];
     }
 
