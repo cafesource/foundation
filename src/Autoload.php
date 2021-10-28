@@ -9,9 +9,9 @@ class Autoload
     /**
      * The autoload name
      *
-     * @var $name
+     * @var string $name
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The autoload items is loaded
@@ -150,9 +150,10 @@ class Autoload
         $value = $this->get($key);
 
         if ( is_callable($callback) ) {
-            $value = call_user_func_array($callback, [$value, $this->default($key)]);
-        } else
+            $value = $callback($value, $this->default($key));
+        } else {
             $value = $callback;
+        }
 
         $this->set($key, $value);
         return $this;
