@@ -3,6 +3,7 @@
 namespace Cafesource\Foundation;
 
 use Livewire\Livewire;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Container\Container as Application;
@@ -13,9 +14,9 @@ class CafesourceServiceProvider extends ServiceProvider
     protected string $config = __DIR__ . '/../config/cafesource.php';
 
     /**
-     * @return mixed|void
+     * @return void
      */
-    public function register()
+    public function register() : void
     {
         $this->mergeConfig();
 
@@ -25,7 +26,7 @@ class CafesourceServiceProvider extends ServiceProvider
         $this->mergeServiceProviders(Foundation::serviceProviders());
     }
 
-    public function boot()
+    public function boot() : void
     {
         $this->loadRoutes();
 
@@ -34,13 +35,13 @@ class CafesourceServiceProvider extends ServiceProvider
         ]);
 
         $this->loadLivewireComponents();
+        $this->loadViewComponents();
     }
-
 
     /**
      * @param Application $app
      */
-    protected function registerManager( Application $app )
+    protected function registerManager( Application $app ) : void
     {
         $app->singleton('cafesource.foundation', function ( $app ) {
             return new App($app[ 'config' ][ 'cafesource' ]);
@@ -50,7 +51,7 @@ class CafesourceServiceProvider extends ServiceProvider
     /**
      * @param Application $app
      */
-    protected function registerBindings( Application $app )
+    protected function registerBindings( Application $app ) : void
     {
         $app->bind('cafesource.foundation', function ( $app ) {
             return new App($app[ 'config' ][ 'cafesource' ]);
@@ -60,7 +61,7 @@ class CafesourceServiceProvider extends ServiceProvider
     /**
      * @param $serviceProviders
      */
-    public function mergeServiceProviders( $serviceProviders )
+    public function mergeServiceProviders( $serviceProviders ) : void
     {
         foreach ( $serviceProviders as $provider ) {
             $this->app->register($provider);
@@ -70,7 +71,7 @@ class CafesourceServiceProvider extends ServiceProvider
     /**
      * Merge config
      */
-    protected function mergeConfig()
+    protected function mergeConfig() : void
     {
         $this->mergeConfigFrom($this->config, 'cafesource');
     }
@@ -78,14 +79,42 @@ class CafesourceServiceProvider extends ServiceProvider
     /**
      * Loads the admin livewire components
      */
-    private function loadLivewireComponents()
+    private function loadLivewireComponents() : void
     {
         foreach ( Foundation::livewireComponents() as $alias => $component ) {
             Livewire::component($alias, $component);
         }
     }
 
-    public function loadRoutes()
+    /**
+     * Load the view components
+     */
+    private function LoadViewComponents() : void
+    {
+        foreach ( Foundation::viewComponents() as $alias => $component ) {
+            if ( $alias === 'namespace' ) {
+                $this->loadViewComponentNamespace($component);
+                continue;
+            }
+
+            Blade::component($alias, $component);
+        }
+    }
+
+    /**
+     * @param $components
+     */
+    private function loadViewComponentNamespace( $components ) : void
+    {
+        foreach ( $components as $namespace => $component ) {
+            Blade::componentNamespace($namespace, $component);
+        }
+    }
+
+    /**
+     * Load the routes
+     */
+    public function loadRoutes() : void
     {
         foreach ( Foundation::routes() as $value ) {
             $route = Route::prefix($value[ 'prefix' ]);
