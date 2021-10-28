@@ -16,7 +16,10 @@ use Cafesource\Foundation\App as CafesourceManager;
  * @method static array routes()
  * @method static CafesourceManager addRoute(string $name, $path, array $options = [])
  * @method static array livewireComponents()
+ * @method static array viewComponents()
  * @method static CafesourceManager addLivewireComponent($component, $module = null)
+ * @method static CafesourceManager addViewComponent($component, $module = null)
+ * @method static CafesourceManager addComponent($key, $component, $module = null)
  * @method static Autoload autoload(string $name, array $data = [])
  * @method static array getAutoload(string $key = null)
  * @method static mixed cache(string $name)
@@ -31,7 +34,7 @@ class Cafesource extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor() : string
     {
         return 'cafesource.foundation';
     }
