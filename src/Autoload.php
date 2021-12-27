@@ -7,14 +7,14 @@ use Illuminate\Support\Arr;
 class Autoload
 {
     /**
-     * The autoload name
+     * Autoload name
      *
      * @var string $name
      */
     protected string $name;
 
     /**
-     * The autoload items is loaded
+     * Autoload items is loaded
      *
      * @var array|mixed
      */
@@ -32,12 +32,6 @@ class Autoload
      */
     private Filter $filter;
 
-    /**
-     * Autoload constructor.
-     *
-     * @param       $name
-     * @param array $items
-     */
     public function __construct( $name, array $items = [] )
     {
         $this->name    = $name;
@@ -66,25 +60,35 @@ class Autoload
     }
 
     /**
-     * @param $key
-     * @param $value
+     * Total number of items
+     *
+     * @return int
+     */
+    public function count() : int
+    {
+        return count($this->items());
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
      *
      * @return $this
      */
-    public function set( $key, $value ) : Autoload
+    public function set( string $key, $value ) : Autoload
     {
         $this->items[ $key ] = $value;
         return $this;
     }
 
     /**
-     * @param      $key
-     * @param      $value
-     * @param null $default
+     * @param string     $key
+     * @param mixed      $value
+     * @param mixed|null $default
      *
      * @return $this
      */
-    public function add( $key, $value, $default = null ) : Autoload
+    public function add( string $key, $value, $default = null ) : Autoload
     {
         $this->items[ $key ] = $value;
 
