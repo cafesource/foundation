@@ -81,7 +81,9 @@ class Filter
     }
 
     /**
-     * @param     $name
+     * Remove single item
+     *
+     * @param string|array $name
      */
     public function remove( $name )
     {
@@ -89,6 +91,7 @@ class Filter
     }
 
     /**
+     * Remove all listeners
      */
     public function removeAll()
     {
