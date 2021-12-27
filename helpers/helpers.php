@@ -12,7 +12,7 @@ if ( !function_exists('autoload') ) {
      *
      * @return mixed
      */
-    function autoload( $name, $data = [] )
+    function autoload( $name, array $data = [] )
     {
         return Cafesource::autoload($name, $data);
     }
